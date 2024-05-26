@@ -52,7 +52,7 @@ PLUGIN_LIB =
 # PLUGIN_LIB = $(MYSQL_LIB)
 
 COMM_OBJ := $(patsubst $(PATH_COMM)/%.cc, $(PATH_OBJ)/%.o, $(wildcard $(PATH_COMM)/*.cc))
-COROUTINE_OBJ := $(patsubst $(PATH_COROUTINE)/%.cc, $(PATH_OBJ)/%.o, $(wildcard $(PATH_COROUTINE)/*.cc))
+COROUTINE_OBJ := $(patsubst $(PATH_COROUTINE)/%.cc, $(PATH_OBJ)/%.o, $(wildcard $(PATH_COROUTINE)/*.cc)) $(PATH_OBJ)/coctx_swap.o
 NET_OBJ := $(patsubst $(PATH_NET)/%.cc, $(PATH_OBJ)/%.o, $(wildcard $(PATH_NET)/*.cc))
 HTTP_OBJ := $(patsubst $(PATH_HTTP)/%.cc, $(PATH_OBJ)/%.o, $(wildcard $(PATH_HTTP)/*.cc))
 TCP_OBJ := $(patsubst $(PATH_TCP)/%.cc, $(PATH_OBJ)/%.o, $(wildcard $(PATH_TCP)/*.cc))
@@ -62,7 +62,7 @@ COR_CTX_SWAP := coctx_swap.o
 
 ALL_TESTS : $(PATH_BIN)/test_tinypb_server $(PATH_BIN)/test_http_server $(PATH_BIN)/test_coroutine $(PATH_BIN)/test_tinypb_server_client\
 
-TEST_CASE_OUT := $(PATH_BIN)/test_tinypb_server $(PATH_BIN)/test_http_server $(PATH_BIN)/test_tinypb_server_client\
+TEST_CASE_OUT := $(PATH_BIN)/test_tinypb_server $(PATH_BIN)/test_http_server $(PATH_BIN)/test_coroutine $(PATH_BIN)/test_tinypb_server_client\
 
 LIB_OUT := $(PATH_LIB)/libtinyrpc.a
 
@@ -107,10 +107,13 @@ $(PATH_OBJ)/%.o : $(PATH_TINYPB)/%.cc
 # like this: make PRINT-PATH_BIN, and then will print variable PATH_BIN
 PRINT-% : ; @echo $* = $($*)
 
+# sunshine add
+sunshineTest : 
+	echo $(COROUTINE_OBJ)
 
 # to clean 
 clean :
-	rm -f $(COMM_OBJ) $(COROUTINE_OBJ) $(NET_OBJ) $(HTTP_OBJ) $(TCP_OBJ) $(TINYPB_OBJ) $(TESTCASES) $(PATH_COROUTINE)/coctx_swap.o $(TEST_CASE_OUT) $(PATH_LIB)/libtinyrpc.a $(PATH_OBJ)/libtinyrpc.a
+	rm -f $(COMM_OBJ) $(COROUTINE_OBJ) $(NET_OBJ) $(HTTP_OBJ) $(TCP_OBJ) $(TINYPB_OBJ) $(TESTCASES) $(TEST_CASE_OUT) $(PATH_LIB)/libtinyrpc.a $(PATH_OBJ)/libtinyrpc.a
 
 # install
 install:

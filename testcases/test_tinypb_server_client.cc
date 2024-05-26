@@ -19,7 +19,8 @@ void test_client() {
 
   queryAgeReq rpc_req;
   queryAgeRes rpc_res;
-
+  rpc_req.set_id(2107010122);
+  rpc_req.set_req_no(1111);
   std::cout << "Send to tinyrpc server " << addr->toString() << ", requeset body: " << rpc_req.ShortDebugString() << std::endl;
   stub.query_age(&rpc_controller, &rpc_req, &rpc_res, NULL);
 
